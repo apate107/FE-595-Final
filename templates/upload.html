@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <h1>Upload a file</h1>
+      <hr>
+
+      <form action="/uploadfile" method="POST" enctype="multipart/form-data">
+        
+        <div class="form-group">
+          <label>Select File</label>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" accept=".txt, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="datafile" id="datafile">
+            <label class="custom-file-label" for="datafile">Select File...</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
