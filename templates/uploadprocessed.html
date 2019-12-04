@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <h1>Upload a file</h1>
+      <hr>
+      <p>
+        Validate the looks correct, below is a sample of 5 rows.
+      </p>
+      <div class="row">
+        <div class="col-md-10">
+          {% for table in tables %}
+            
+            {{ table|safe }}
+          {% endfor %}  
+        </div>
+      </div>
+        
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
