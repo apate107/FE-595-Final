@@ -13,10 +13,10 @@ def KNN(data):
     for k in range(1, len(y_train)+1):  # Check accuracy for range of values for k
         knn = KNeighborsClassifier(n_neighbors=k)
         knn.fit(X_train, y_train)
-        scores[str(k)] = knn.score(X_test, y_test)
+        scores[k] = knn.score(X_test, y_test)
 
     return pd.DataFrame(scores.items(), columns=['k', 'Accuracy'])
 
 
-def LinearReg():
-    pass
+def LinearReg(data):
+    return pd.DataFrame()

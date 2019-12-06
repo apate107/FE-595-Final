@@ -3,6 +3,7 @@ import os
 from functions import *
 from models import *
 
+
 global uploadedDataframe
 app = Flask(__name__)
 
@@ -29,17 +30,27 @@ def uploadfile():
             flash('No file')
             return redirect(request.url)
 
+        type = request.form.get('model')
         dfile = request.files["datafile"]
         filename = os.path.join(app.config["FILE_UPLOADS"], dfile.filename)
         dfile.save(filename)
         dsep = request.form.get("datasep")
         dheader = request.form.get("dataheader")
 
-        uploadedDataframe = processInitialFile(filename,dheader,dsep )
+        uploadedDataframe = processInitialFile(filename, dheader, dsep)
+        if uploadedDataframe.empty:
+            flash('Data is empty')
+            return redirect(request.url)
+
         dfData = uploadedDataframe[:5]
-        knn_results = KNN(uploadedDataframe)
-        return render_template("uploadprocessed.html", tables=[dfData.to_html(classes='data'),
-                                                               knn_results.to_html(classes='data')],
+        results = None
+        if type == 'Classification (K Nearest Neighbors)':
+            results = KNN(uploadedDataframe)
+        elif type == 'LinearReg(uploadedDataframe)':
+            results = LinearReg(uploadedDataframe)
+
+        return render_template("uploadprocessed.html", tables=[dfData.to_html(classes='data', index=False),
+                                                               results.to_html(classes='data', index=False)],
                                titles=dfData.columns.values)
         
     else:
