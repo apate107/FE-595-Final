@@ -1,0 +1,8 @@
+pandas
+numpy
+sklearn
+mpld3
+matplotlib
+mlxtend
+flask
+WTForms
