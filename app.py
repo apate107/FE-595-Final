@@ -52,7 +52,7 @@ def knn():
     if request.method == 'GET':
         uploadedDataframe = pd.read_pickle('inputfiles/most_recent.pkl')
         return render_template("knn_get.html",
-                               tables=[uploadedDataframe.head().to_html(classes='data')],
+                               tables=[uploadedDataframe.head().to_html(classes='data', index=False)],
                                columns=uploadedDataframe.columns.tolist(),
                                titles=uploadedDataframe.columns.values,
                                k_values=[i for i in range(1, len(uploadedDataframe)+1)])
