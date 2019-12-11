@@ -2,11 +2,6 @@ import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.externals.six import StringIO
-from IPython.display import Image
-from sklearn.tree import export_graphviz
-import pydotplus
-from IPython.display import Image, HTML, display
 import mpld3
 import matplotlib.pyplot as plt
 
@@ -45,5 +40,8 @@ def get_tree_plot(x,y, pred_type, depth):
     fig,ax = plt.subplots()
     ax.plot(x_test.index, pred, label='Prediction', c='blue')
     ax.plot(x_test.index, y_test, label ='Actual', c='black')
+    axhandles, axlabels = ax.get_legend_handles_labels()
+    mpld3.plugins.connect(fig, mpld3.plugins.InteractiveLegendPlugin(axhandles, axlabels))
+    fig.subplots_adjust(right=0.7)
     mpld3.save_html(fig,'templates/tree_fig.html')
 
