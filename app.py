@@ -25,7 +25,7 @@ def uploadfileGet():
 @app.route("/uploadfile", methods=["POST"])
 def uploadfile():
     if request.method == "POST":
-        
+
         if 'datafile' not in request.files:
             flash('No file')
             return redirect(request.url)
@@ -36,12 +36,11 @@ def uploadfile():
         dfile.save(filename)
         dsep = request.form.get("datasep")
         dheader = request.form.get("dataheader")
-
-        uploadedDataframe = processInitialFile(filename, dheader, dsep)
+        uploadedDataframe = processInitialFile(filename,dheader,dsep )
+        uploadedDataframe.to_pickle('inputfiles/most_recent.pkl')
         if uploadedDataframe.empty:
             flash('Data is empty')
             return redirect(request.url)
-
         dfData = uploadedDataframe[:5]
         results = None
         if type == 'Classification (K Nearest Neighbors)':
@@ -52,9 +51,41 @@ def uploadfile():
         return render_template("uploadprocessed.html", tables=[dfData.to_html(classes='data', index=False),
                                                                results.to_html(classes='data', index=False)],
                                titles=dfData.columns.values)
-        
+
     else:
         return render_template("upload.html")
+
+
+@app.route('/DecisionTree', methods = ['GET','POST'])
+def decision_tree():
+    if request.method == 'GET':
+        uploadedDataframe = pd.read_pickle('inputfiles/most_recent.pkl')
+        return render_template("decisiontree_get.html",
+                               tables=[uploadedDataframe.head().to_html(classes='data')],
+                               columns=uploadedDataframe.columns.tolist(),
+                               titles=uploadedDataframe.columns.values,
+                               depths=[i for i in range(1,6)])
+    else:
+        classification=request.form.get('reg')
+        data = pd.read_pickle('inputfiles/most_recent.pkl')
+        data.columns = [str(i) for i in data.columns]
+        y = request.form.get("y")
+        y = str(y)
+        keeps = []
+
+        depth = int(request.form.get("depth"))
+        y_var = data.loc[:,y]
+        x_vars = data.drop(y,axis=1)
+        for i in range(x_vars.shape[1]):
+            if type(x_vars.iloc[0,i]) in [np.dtype('float'),np.dtype('int'), np.dtype('bool')]:
+                keeps.append(i)
+
+        x_vars = x_vars.iloc[:,keeps]
+
+        get_tree_plot(x_vars,y_var, pred_type=classification,depth=depth)
+
+        return render_template("decisiontree_post.html",
+                           titles=[x_vars.columns.values])
 
 
 @app.errorhandler(404)

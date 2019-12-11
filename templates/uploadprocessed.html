@@ -17,15 +17,23 @@
       <div class="row">
         <div class="col-md-10">
           {% for table in tables %}
-            
-            {{ table|safe }}
 
-            <br>
-          {% endfor %}  
+            {{ table|safe }}
+          {% endfor %}
         </div>
       </div>
-        
-
+      <hr>
+      <h4>Select what model you would like to test</h4>
+      <div class = 'form-row'>
+        <div class="'form-group col md-6">
+          <a href = "/knn"> K-Nearest Neighbors</a>
+        </div>
+      </div>
+      <div class = 'form-row'>
+        <div class="'form-group col md-6">
+          <a href = "/DecisionTree"> Decision Tree</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
