@@ -8,13 +8,15 @@
 <div class="container">
   <div class="row">
     <div class="col">
-
       <h1>Upload a file</h1>
       <hr>
       <p>
-        Decision Tree
+        K Nearest Neighbors (k = {{k}})
       </p>
-      {% include "tree_fig.html" %}
+      {% include "knn_fig.html" %}
+    </div>
+    <div>
+      <p>The accuracy of this K-NN model is {{ acc }}.</p>
     </div>
   </div>
 </div>
