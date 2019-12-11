@@ -27,16 +27,29 @@
               </select>
           </div>
         </div>
+
         <div class="form-row">
           <div class="form-group col-md-6">
               <label for="dataheader">Header Row</label>
               <select class="form-control" id="dataheader" name="dataheader">
-                <option>No</option>
                 <option>Yes</option>
+                <option>No</option>
                 
               </select>
           </div>
         </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+              <label for="model">Choose model type</label>
+              <select class="form-control" id="model" name="model">
+                <option>Regression (Linear Regression)</option>
+                <option>Classification (K Nearest Neighbors)</option>
+
+              </select>
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="datafile">Select a file to load</label>
@@ -44,6 +57,7 @@
             accept=".txt, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
           </div>
         </div>
+
         <button type="submit" class="btn btn-primary">Upload</button>
 
       </form>
