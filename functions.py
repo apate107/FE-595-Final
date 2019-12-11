@@ -4,27 +4,26 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
 import mpld3
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
 def processInitialFile(fname, header, filesep):
-
     df = pd.DataFrame()
-    if filesep == 'TXT' and header=='No':
+    if filesep == 'TXT' and header == 'No':
         df = pd.read_csv(fname, sep='\t', header=None)
-    elif filesep == 'CSV' and header=='No':
+    elif filesep == 'CSV' and header == 'No':
         df = pd.read_csv(fname, header=None)
-    elif filesep == 'Excel' and header=='No':
+    elif filesep == 'Excel' and header == 'No':
         df = pd.read_excel(fname, header=None)
-    elif filesep == 'TXT' and header=='Yes':
+    elif filesep == 'TXT' and header == 'Yes':
         df = pd.read_csv(fname, sep='\t', header=0)
-    elif filesep == 'CSV' and header=='Yes':
+    elif filesep == 'CSV' and header == 'Yes':
         df = pd.read_csv(fname, header=0)
-    elif filesep == 'Excel' and header=='Yes':
+    elif filesep == 'Excel' and header == 'Yes':
         df = pd.read_excel(fname, header=0)
-
     return df
 
 
@@ -40,7 +39,7 @@ def get_knn_plot(x, y, k):
     for i in range(len(set(pred))):
         val = list(set(pred))[i]
         ax.scatter(X_test.iloc[pred == val, 0], X_test.iloc[pred == val, 1],
-                   c=list(np.random.choice(range(256), size=3)/256), label=val)
+                   c=list(np.random.choice(range(256), size=3)/255), label=val)
     plt.xlabel(X_test.columns[0])
     plt.ylabel(X_test.columns[1])
     axhandles, axlabels = ax.get_legend_handles_labels()
@@ -55,9 +54,9 @@ def get_tree_plot(x, y, pred_type, depth):
     # Split data and fit model
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
     if pred_type == 'Classification':
-        dtree = DecisionTreeClassifier(random_state=0,max_depth=depth)
+        dtree = DecisionTreeClassifier(random_state=0, max_depth=depth)
     else:
-        dtree = DecisionTreeRegressor(random_state=0,max_depth=depth)
+        dtree = DecisionTreeRegressor(random_state=0, max_depth=depth)
     dtree.fit(x_train, y_train)
     pred = dtree.predict(x_test)
 
@@ -69,4 +68,3 @@ def get_tree_plot(x, y, pred_type, depth):
     mpld3.plugins.connect(fig, mpld3.plugins.InteractiveLegendPlugin(axhandles, axlabels))
     fig.subplots_adjust(right=0.7)
     mpld3.save_html(fig, 'templates/tree_fig.html')
-

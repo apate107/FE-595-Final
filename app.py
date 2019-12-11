@@ -33,7 +33,7 @@ def uploadfile():
         dfile.save(filename)
         dsep = request.form.get("datasep")
         dheader = request.form.get("dataheader")
-        uploadedDataframe = processInitialFile(filename,dheader,dsep )
+        uploadedDataframe = processInitialFile(filename, dheader, dsep)
         uploadedDataframe.to_pickle('inputfiles/most_recent.pkl')
         if uploadedDataframe.empty:
             flash('Data is empty')
@@ -47,7 +47,7 @@ def uploadfile():
         return render_template("upload.html")
 
 
-@app.route('/KNN', methods=['GET','POST'])
+@app.route('/KNN', methods=['GET', 'POST'])
 def knn():
     if request.method == 'GET':
         uploadedDataframe = pd.read_pickle('inputfiles/most_recent.pkl')
@@ -67,7 +67,7 @@ def knn():
         y_var = data.loc[:, y]
         x_vars = data.drop(y, axis=1)
         for i in range(x_vars.shape[1]):
-            if type(x_vars.iloc[0,i]) in [np.dtype('float'),np.dtype('int'), np.dtype('bool')]:
+            if type(x_vars.iloc[0, i]) in [np.dtype('float'), np.dtype('int'), np.dtype('bool')]:
                 keeps.append(i)
         x_vars = x_vars.iloc[:, keeps]
         res = get_knn_plot(x_vars, y_var, k=k)
@@ -75,7 +75,7 @@ def knn():
         return render_template("knn_post.html", k=k, acc=str(round(res['accuracy']*100, 2))+'%')
 
 
-@app.route('/DecisionTree', methods = ['GET','POST'])
+@app.route('/DecisionTree', methods=['GET', 'POST'])
 def decision_tree():
     if request.method == 'GET':
         uploadedDataframe = pd.read_pickle('inputfiles/most_recent.pkl')
@@ -93,18 +93,17 @@ def decision_tree():
         keeps = []
 
         depth = int(request.form.get("depth"))
-        y_var = data.loc[:,y]
-        x_vars = data.drop(y,axis=1)
+        y_var = data.loc[:, y]
+        x_vars = data.drop(y, axis=1)
         for i in range(x_vars.shape[1]):
-            if type(x_vars.iloc[0,i]) in [np.dtype('float'),np.dtype('int'), np.dtype('bool')]:
+            if type(x_vars.iloc[0, i]) in [np.dtype('float'), np.dtype('int'), np.dtype('bool')]:
                 keeps.append(i)
 
-        x_vars = x_vars.iloc[:,keeps]
+        x_vars = x_vars.iloc[:, keeps]
 
-        get_tree_plot(x_vars,y_var, pred_type=classification,depth=depth)
+        get_tree_plot(x_vars, y_var, pred_type=classification, depth=depth)
 
-        return render_template("decisiontree_post.html",
-                           titles=[x_vars.columns.values])
+        return render_template("decisiontree_post.html", titles=[x_vars.columns.values])
 
 
 @app.errorhandler(404)
