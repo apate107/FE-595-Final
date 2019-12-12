@@ -30,18 +30,18 @@ def uploadfile():
     
     if request.method == "POST":
 
-        if 'datafile' not in request.files:
-            flash('No file')
-            return redirect(request.url)
-
-
         dfile = request.files["datafile"]
+        dfile.seek(0, os.SEEK_END)
+        if dfile.tell() == 0:
+            flash('No file was detected, please select a file')
+            return redirect( url_for('uploadfileGet'))
+
         filename = os.path.join(app.config["FILE_UPLOADS"], dfile.filename)
-        dfile.save(filename)
+        dfile.seek(0)
         dsep = request.form.get("datasep")
         dheader = request.form.get("dataheader")
         
-        uploadedDataframe = processInitialFile(filename, dheader, dsep)
+        uploadedDataframe = processInitialFile(dfile, dheader, dsep)
         input_fileName = 'input_fileName' + dt.datetime.now().strftime("%m%d%y%h%m%S%f")    
         input_file = os.path.join(app.config['FILE_UPLOADS'],input_fileName)
         

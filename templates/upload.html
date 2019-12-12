@@ -14,7 +14,7 @@
         The data file must be either a csv, txt or excel file.  The allowed separators are tab, comma or excel.
         The file can have a header row or no header.
       </p>
-      <form action="/uploadfile" method="POST" enctype="multipart/form-data">
+      <form action="{{ url_for('uploadfile') }}" method="POST" enctype="multipart/form-data">
         
         <div class="form-row">
           <div class="form-group col-md-6">

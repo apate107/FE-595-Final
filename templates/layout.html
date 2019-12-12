@@ -24,6 +24,15 @@
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="/">Home</a>
             </div>
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('uploadfileGet') }}">Upload File</a>
+            </div>
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('knn', filename=filename) }}">K-Nearest Neighbors</a>
+            </div>
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('decision_tree', filename=filename) }}">Decision Tree</a>
+            </div>
             
           </div>
         </div>
