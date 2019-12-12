@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Upload File{% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
 
@@ -8,11 +8,9 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1>Upload a file</h1>
+      <h1>K Nearest Neighbors (k = {{k}})</h1>
       <hr>
-      <p>
-        K Nearest Neighbors (k = {{k}})
-      </p>
+      
       {% include "knn_fig.html" %}
     </div>
     <div>
