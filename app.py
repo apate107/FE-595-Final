@@ -9,7 +9,7 @@ import datetime as dt
 app = Flask(__name__)
 app.app_context()
 app.config['SECRET_KEY'] = 'MYFAVORITECLASSISFE595'
-app.config['FILE_UPLOADS'] = os.getcwd() + '\\inputfiles'
+app.config['FILE_UPLOADS'] = os.getcwd() + '/inputfiles'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
