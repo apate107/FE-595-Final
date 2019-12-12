@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 import os
 import numpy as np
@@ -11,6 +12,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
 # Home Page
+
 @app.route("/", methods=['GET'])
 def home():
     return render_template("home.html")
@@ -24,9 +26,11 @@ def uploadfileGet():
 @app.route("/uploadfile", methods=["POST"])
 def uploadfile():
     if request.method == "POST":
+
         if 'datafile' not in request.files:
             flash('No file')
             return redirect(request.url)
+
 
         dfile = request.files["datafile"]
         filename = os.path.join(app.config["FILE_UPLOADS"], dfile.filename)
@@ -106,6 +110,7 @@ def decision_tree():
         return render_template("decisiontree_post.html", titles=[x_vars.columns.values])
 
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
@@ -120,3 +125,4 @@ def add_header(response):
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
+

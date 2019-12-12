@@ -1,3 +1,4 @@
+
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
@@ -68,3 +69,4 @@ def get_tree_plot(x, y, pred_type, depth):
     mpld3.plugins.connect(fig, mpld3.plugins.InteractiveLegendPlugin(axhandles, axlabels))
     fig.subplots_adjust(right=0.7)
     mpld3.save_html(fig, 'templates/tree_fig.html')
+

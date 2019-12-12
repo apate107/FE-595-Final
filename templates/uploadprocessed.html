@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
-{% block title %}Results{% endblock %}
 
+{% block title %}Results{% endblock %}
 {% block content %}
 
 
@@ -12,11 +12,14 @@
       <h1>Upload a file</h1>
       <hr>
       <p>
+
         Below is a sample of the data, with the results of the modeling below.
+
       </p>
       <div class="row">
         <div class="col-md-10">
           {% for table in tables %}
+
             {{ table|safe }}
           {% endfor %}
         </div>
@@ -33,8 +36,11 @@
           <a href = "/DecisionTree"> Decision Tree</a>
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
+
 {% endblock content %}
+
