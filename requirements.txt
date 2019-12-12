@@ -1,0 +1,8 @@
+pandas
+numpy
+sklearn
+git+git://github.com/javadba/mpld3.git@57ed37dbc4749259b1b46cba8bf28de802972adb#egg=mpld3
+matplotlib
+mlxtend
+flask
+WTForms

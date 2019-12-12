@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
-{% block title %}Upload File{% endblock %}
 
+{% block title %}Results{% endblock %}
 {% block content %}
 
 
@@ -12,20 +12,35 @@
       <h1>Upload a file</h1>
       <hr>
       <p>
-        Validate the looks correct, below is a sample of 5 rows.
+
+        Below is a sample of the data, with the results of the modeling below.
+
       </p>
       <div class="row">
         <div class="col-md-10">
           {% for table in tables %}
-            
+
             {{ table|safe }}
-          {% endfor %}  
+          {% endfor %}
         </div>
       </div>
-        
+      <hr>
+      <h4>Select what model you would like to test</h4>
+      <div class = 'form-row'>
+        <div class="'form-group col md-6">
+          <a href = "/KNN"> K-Nearest Neighbors</a>
+        </div>
+      </div>
+      <div class = 'form-row'>
+        <div class="'form-group col md-6">
+          <a href = "/DecisionTree"> Decision Tree</a>
+        </div>
+      </div>
 
     </div>
   </div>
 </div>
 
+
 {% endblock content %}
+

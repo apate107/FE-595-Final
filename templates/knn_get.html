@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <h1>File Uploaded</h1>
+      <hr>
+      <p>
+        Validate the looks correct, below is a sample of 5 rows.
+      </p>
+      <div class="row">
+        <div class="col-md-10">
+          {% for table in tables %}
+            {{ table|safe }}
+          {% endfor %}  
+        </div>
+      </div>
+      <hr>
+      <form action="/KNN", method="POST">
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <p class="big"> <b> Select Independent Variable </b></p>
+          <select class="form-control" id="y" name="y">
+	          {% for column in columns %}
+	          <option value="{{column}}">{{column}}</option>
+	          {% endfor %}
+          </select>
+          <br>
+          <br>
+          <label><b>Select number of neighbors (k)</b></label>
+          <select class="form-control" id="k" name="k">
+	          {% for k in k_values %}
+	          <option value="{{k}}">{{k}}</option>
+	          {% endfor %}
+          </select>
+          </p>
+
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
