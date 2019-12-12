@@ -37,7 +37,6 @@ def uploadfile():
             flash('No file was detected, please select a file')
             return redirect( url_for('uploadfileGet'))
 
-        filename = os.path.join(app.config["FILE_UPLOADS"], dfile.filename)
         dfile.seek(0)
         dsep = request.form.get("datasep")
         dheader = request.form.get("dataheader")
