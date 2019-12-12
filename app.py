@@ -6,7 +6,7 @@ from functions import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'MYFAVORITECLASSISFE595'
-app.config['FILE_UPLOADS'] = os.getcwd() + '\\inputfiles'
+app.config['FILE_UPLOADS'] = os.getcwd() + '/inputfiles'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
@@ -102,8 +102,10 @@ def decision_tree():
         x_vars = x_vars.iloc[:, keeps]
 
         get_tree_plot(x_vars, y_var, pred_type=classification, depth=depth)
+        mod_type = 'Classifier' if classification else 'Regressor'
 
-        return render_template("decisiontree_post.html", titles=[x_vars.columns.values])
+        return render_template("decisiontree_post.html", titles=[x_vars.columns.values],
+                               mod_type = mod_type)
 
 
 @app.errorhandler(404)

@@ -1,4 +1,5 @@
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
+from sklearn.metrics import confusion_matrix
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 import pandas as pd
@@ -62,8 +63,9 @@ def get_tree_plot(x, y, pred_type, depth):
 
     # Create plot and save
     fig, ax = plt.subplots()
-    ax.plot(x_test.index, pred, label='Prediction', c='blue')
-    ax.plot(x_test.index, y_test, label='Actual', c='black')
+    ax.plot(y_test, pred, label='Prediction', c='blue')
+    #ax.plot(x_test.index, y_test, label='Actual', c='black')
+    p
     axhandles, axlabels = ax.get_legend_handles_labels()
     mpld3.plugins.connect(fig, mpld3.plugins.InteractiveLegendPlugin(axhandles, axlabels))
     fig.subplots_adjust(right=0.7)
