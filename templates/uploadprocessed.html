@@ -28,12 +28,12 @@
       <h4>Select what model you would like to test</h4>
       <div class = 'form-row'>
         <div class="'form-group col md-6">
-          <a href = "/KNN"> K-Nearest Neighbors</a>
+          <a href ="{{ url_for('knn', filename=filename) }}"> K-Nearest Neighbors</a>
         </div>
       </div>
       <div class = 'form-row'>
         <div class="'form-group col md-6">
-          <a href = "/DecisionTree"> Decision Tree</a>
+          <a href = "{{ url_for('decision_tree', filename=filename) }}"> Decision Tree</a>
         </div>
       </div>
 

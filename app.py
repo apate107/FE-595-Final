@@ -1,11 +1,13 @@
 
-from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash, session, g
 import os
 import numpy as np
 from functions import *
+import datetime as dt
 
 
 app = Flask(__name__)
+app.app_context()
 app.config['SECRET_KEY'] = 'MYFAVORITECLASSISFE595'
 app.config['FILE_UPLOADS'] = os.getcwd() + '\\inputfiles'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -25,6 +27,7 @@ def uploadfileGet():
 
 @app.route("/uploadfile", methods=["POST"])
 def uploadfile():
+    
     if request.method == "POST":
 
         if 'datafile' not in request.files:
@@ -37,31 +40,38 @@ def uploadfile():
         dfile.save(filename)
         dsep = request.form.get("datasep")
         dheader = request.form.get("dataheader")
+        
         uploadedDataframe = processInitialFile(filename, dheader, dsep)
-        uploadedDataframe.to_pickle('inputfiles/most_recent.pkl')
+        input_fileName = 'input_fileName' + dt.datetime.now().strftime("%m%d%y%h%m%S%f")    
+        input_file = os.path.join(app.config['FILE_UPLOADS'],input_fileName)
+        
+        uploadedDataframe.to_pickle(input_file)
+        
         if uploadedDataframe.empty:
             flash('Data is empty')
             return redirect(request.url)
         dfData = uploadedDataframe[:5]
 
         return render_template("uploadprocessed.html", tables=[dfData.to_html(classes='data', index=False)],
-                               titles=dfData.columns.values)
+                               titles=dfData.columns.values, filename=input_fileName)
 
     else:
         return render_template("upload.html")
 
 
-@app.route('/KNN', methods=['GET', 'POST'])
-def knn():
+@app.route('/KNN/<filename>', methods=['GET', 'POST'])
+def knn(filename):
+    input_file = os.path.join(app.config['FILE_UPLOADS'],filename)
     if request.method == 'GET':
-        uploadedDataframe = pd.read_pickle('inputfiles/most_recent.pkl')
+        uploadedDataframe = pd.read_pickle(input_file)
         return render_template("knn_get.html",
                                tables=[uploadedDataframe.head().to_html(classes='data', index=False)],
                                columns=uploadedDataframe.columns.tolist(),
                                titles=uploadedDataframe.columns.values,
-                               k_values=[i for i in range(1, len(uploadedDataframe)+1)])
+                               k_values=[i for i in range(1, len(uploadedDataframe)+1)],
+                               filename=filename)
     else:
-        data = pd.read_pickle('inputfiles/most_recent.pkl')
+        data = pd.read_pickle(input_file)
         data.columns = [str(i) for i in data.columns]
         y = request.form.get("y")
         y = str(y)
@@ -76,21 +86,25 @@ def knn():
         x_vars = x_vars.iloc[:, keeps]
         res = get_knn_plot(x_vars, y_var, k=k)
 
-        return render_template("knn_post.html", k=k, acc=str(round(res['accuracy']*100, 2))+'%')
+        return render_template("knn_post.html", k=k, acc=str(round(res['accuracy']*100, 2))+'%',
+                               filename=filename)
 
 
-@app.route('/DecisionTree', methods=['GET', 'POST'])
-def decision_tree():
+@app.route('/DecisionTree/<filename>', methods=['GET', 'POST'])
+def decision_tree(filename):
+    input_file = os.path.join(app.config['FILE_UPLOADS'],filename)
+    
     if request.method == 'GET':
-        uploadedDataframe = pd.read_pickle('inputfiles/most_recent.pkl')
+        uploadedDataframe = pd.read_pickle(input_file)
         return render_template("decisiontree_get.html",
                                tables=[uploadedDataframe.head().to_html(classes='data')],
                                columns=uploadedDataframe.columns.tolist(),
                                titles=uploadedDataframe.columns.values,
-                               depths=[i for i in range(1,6)])
+                               depths=[i for i in range(1,6)],
+                               filename=filename)
     else:
         classification=request.form.get('reg')
-        data = pd.read_pickle('inputfiles/most_recent.pkl')
+        data = pd.read_pickle(input_file)
         data.columns = [str(i) for i in data.columns]
         y = request.form.get("y")
         y = str(y)
@@ -107,7 +121,8 @@ def decision_tree():
 
         get_tree_plot(x_vars, y_var, pred_type=classification, depth=depth)
 
-        return render_template("decisiontree_post.html", titles=[x_vars.columns.values])
+        return render_template("decisiontree_post.html", titles=[x_vars.columns.values],
+                               filename=filename)
 
 
 
@@ -124,5 +139,7 @@ def add_header(response):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    
+
+    app.run(debug=True, host="0.0.0.0", port=5000, threaded=True)
 
