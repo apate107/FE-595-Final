@@ -19,7 +19,8 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 def home():
     return render_template("home.html")
 
-
+@app.route("/KNN/", methods=["GET"])
+@app.route("/DecisionTree/", methods=["GET"])
 @app.route("/uploadfile", methods=["GET"])
 def uploadfileGet():
     return render_template("upload.html")
