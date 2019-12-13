@@ -119,10 +119,21 @@ def decision_tree(filename):
 
         x_vars = x_vars.iloc[:, keeps]
 
-        get_tree_plot(x_vars, y_var, pred_type=classification, depth=depth)
+        outs = get_tree_plot(x_vars, y_var, pred_type=classification, depth=depth)
+        if classification == 'Classification':
+            metrics1 = 'In-Sample Accuracy: '
+            metrics2 = 'OOS Accuracy: '
+        else:
+            metrics1='In-Sample MSE: '
+            metrics2 = 'OOS MSE: '
+
+        m1=outs[0]
+        m2 = outs[1]
+
 
         return render_template("decisiontree_post.html", titles=[x_vars.columns.values],
-                               filename=filename)
+                               filename=filename, metrics1 = metrics1,metrics2=metrics2,
+                               m1=m1,m2=m2)
 
 
 
